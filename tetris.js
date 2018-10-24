@@ -19,6 +19,7 @@ function arenaSweep() {
         player.score += rowCount * 10;
         rowCount *= 2;
     }
+    
 }
 
 
@@ -150,6 +151,8 @@ function playerDrop() {
         playerReset();
         arenaSweep();
         updateScore();
+        levelUp();
+        
     }
     dropCounter = 0;
 }
@@ -170,8 +173,26 @@ function playerReset() {
     if (collide(arena, player)) {
         arena.forEach(row => row.fill(0));
         player.score = 0;
+        player.level = 0;
         updateScore();
+        levelUp();
     }
+}
+
+function levelUp() {
+    let currentScore = player.score;
+    
+    switch(currentScore) {
+        case 100:
+            player.level = 1;
+            break;
+        
+        case 200:
+            player.level = 2;
+            break;
+    }
+    updateLevel();
+
 }
 
 function playerRotate(dir) {
@@ -208,7 +229,6 @@ function rotate(matrix, dir) {
         matrix.reverse();
     }
 }
-
 
 
 let dropCounter = 0;
@@ -264,4 +284,5 @@ document.addEventListener('keydown', event => {
 
 playerReset();
 updateScore();
+levelUp();
 update();
